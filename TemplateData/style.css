@@ -106,7 +106,7 @@ body {
 /* 説明文のスタイル調整 */
 #startARDiv p {
   color: #333;
-  background-color: #f7f5f1aa; /* 半透明の背景を追加して読みやすくする */
+  background-color: rgba(255, 255, 255, 0.8); /* 半透明の背景を追加して読みやすくする */
   padding: 20px;
   border-radius: 10px;
   font-size: 16px;
@@ -114,11 +114,11 @@ body {
 
 /* ボタンのスタイルをカスタマイズ */
 #startARButton {
-  background-color: #583e08; /* ボタンの色 */
+  background-color: #007bff; /* ボタンの色 */
   color: white; /* 文字色 */
   padding: 15px 30px;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
@@ -126,5 +126,5 @@ body {
 }
 
 #startARButton:hover {
-  background-color: #3a2803; /* マウスオーバー時の色 */
+  background-color: #0056b3; /* マウスオーバー時の色 */
 }
