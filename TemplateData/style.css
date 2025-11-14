@@ -43,8 +43,9 @@ body {
 }
 
 #unity-logo {
-  width: 154px;
-  height: 139px;
+  width: 20vw; /* 画面の横幅に対して60%の大きさに設定 */
+  max-width: 200px; /* ロゴが極端に大きくなりすぎないように、最大幅を指定 (この値は任意で調整してください) */
+  height: auto;
   background: url('CreativeWorksLogo_small.png') no-repeat center
 }
 
