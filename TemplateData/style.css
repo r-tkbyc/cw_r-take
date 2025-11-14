@@ -5,7 +5,6 @@ body {
 
 #startARDiv,
 #unity-container {
-  position: absolute;
   background-color: #f8f7ec;
   background-image: url('triangles.png'); /* 独自の背景画像を指定 */
   background-repeat: no-repeat;
