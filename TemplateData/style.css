@@ -106,14 +106,27 @@ body {
 
 /* カメラ許可画面の背景に画像を設定 */
 #startARDiv {
+  /* ----- ▼ ここで表示幅を調整します ▼ ----- */
   --decoration-width: 100%; /* 画面幅に対するデコレーション画像の幅 (100% = 画面幅にぴったり) */
-  /* 背景画像を多重に設定します。カンマ区切りで複数指定でき、先に書いた 'triangles.png' が手前(上)に表示されます。 */
-  background-image: url('TemplateData/triangles.png'), url('TemplateData/background-image.jpg');
-  /* 背景画像の表示サイズを個別に設定します。triangles.pngは元のサイズ(auto)、background-image.jpgは画面全体を覆う(cover) */
+  /* ----- ▲ 設定はここまでです ▲ ----- */
+
+
+  /* 
+    背景画像を多重に設定します。
+    【修正点】style.cssと同じフォルダにあるため、'TemplateData/' の記述を削除しました。
+  */
+  background-image: url('triangles.png'), url('background-image.jpg');
+
+  /* 
+    背景画像の表示サイズを個別に設定。
+    triangles.pngの幅を上で定義した変数にし、高さは画像の比率を保つため「auto」に設定します。
+  */
   background-size: var(--decoration-width) auto, cover;
-  /* 背景画像の表示位置を個別に設定します。triangles.pngは上部中央(top center)、background-image.jpgは中央(center) */
+
+  /* 背景画像の表示位置を個別に設定 */
   background-position: top center, center;
-  /* 背景画像のリピート設定を個別に設定します。どちらの画像もリピートしない(no-repeat) */
+
+  /* 背景画像のリピート設定を個別に設定 */
   background-repeat: no-repeat, no-repeat;
 }
 
