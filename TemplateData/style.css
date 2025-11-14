@@ -3,40 +3,8 @@ body {
   margin: 0
 }
 
-/* ===== AR開始画面とローディング画面の共通背景 ===== */
-/* 背景を配置する親要素の準備 */
-#startARDiv,
 #unity-container {
-  position: relative; /* 擬似要素を配置するための基準点 */
-  z-index: 1; /* 念のため重なり順を指定 */
-}
-
-/* 擬似要素(::before)を使って背景レイヤーを作成 */
-#startARDiv::before,
-#unity-container::before {
-  /* ----- ▼ ここで背景デザインを調整します ▼ ----- */
-  --decoration-width: 200%;
-  --fade-duration: 0.5s; /* 背景が消えるときのアニメーション時間 (0.5秒) */
-
-  /* ----- ▲ 設定はここまでです ▲ ----- */
-
-  content: ''; /* 擬似要素には必須のプロパティ */
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1; /* コンテンツ(ロゴや文字)より後ろに配置 */
-
-  /* 背景のデザインを指定 */
-  background-color: #f8f7ec;
-  background-image: url('triangles.png');
-  background-size: var(--decoration-width) auto;
-  background-position: top center;
-  background-repeat: no-repeat;
-  
-  /* 透明度(opacity)の変化をアニメーションさせる設定 */
-  transition: opacity var(--fade-duration) ease-out;
+  position: absolute
 }
 
 #unity-container.unity-desktop {
@@ -68,26 +36,16 @@ body {
 }
 
 #unity-logo {
-  /* ... (前回の変数設定部分はそのまま) ... */
-  --loading-logo-width: 20vw;
-  --logo-original-width: 900;
-  --logo-original-height: 814;
-  --logo-max-width: 350px;
-
-  /* ... (設定を反映させるコードもそのまま) ... */
-  width: var(--loading-logo-width);
-  max-width: var(--logo-max-width);
-  height: calc(var(--loading-logo-width) * var(--logo-original-height) / var(--logo-original-width));
-  max-height: calc(var(--logo-max-width) * var(--logo-original-height) / var(--logo-original-width));
-  background: url('CreativeWorksLogo_small.png') no-repeat center;
-  background-size: contain;
-  margin: 0 auto;
+  width: 154px;
+  height: 130px;
+  background: url('CreativeWorksLogo_small.png') no-repeat center
 }
 
 #unity-progress-bar-empty {
   width: 141px;
   height: 18px;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-left: 6.5px;
   background: url('progress-bar-empty-light.png') no-repeat center
 }
 
@@ -138,12 +96,11 @@ body {
   display: none
 }
 
-/* 右上のバージョン表示 */
-#versionInfo {
-  position: fixed; top: 10px; left: 10px; z-index: 1001;
-  background: rgba(0,0,0,0.5); color: #fff;
-  padding: 3px 8px; border-radius: 5px; font-size: .7em;
-  pointer-events: none;
+/* カメラ許可画面の背景に画像を設定 */
+#startARDiv {
+  background-image: url('TemplateData/background-image.jpg'); /* 独自の背景画像を指定 */
+  background-size: cover;
+  background-position: center;
 }
 
 /* 説明文のスタイル調整 */
@@ -174,13 +131,8 @@ body {
 
 /* カスタムブランドロゴのスタイル */
 #custom-brand-logo {
-  width: 40vw; /* 画面の横幅に対して60%の大きさに設定 */
+  width: 60vw; /* 画面の横幅に対して60%の大きさに設定 */
   max-width: 350px; /* ロゴが極端に大きくなりすぎないように、最大幅を指定 (この値は任意で調整してください) */
   height: auto; /* imgタグの場合、heightをautoに設定すると画像の縦横比を保ったまま、自動で高さが調整されます。 */
   margin-bottom: 1vh; /* ロゴと下のテキストとの間に余白を追加 */
-}
-
-/* ===== JSで背景をフェードアウトさせるためのクラス ===== */
-#unity-container.splash-background-fade-out::before {
-  opacity: 0; /* 透明度を0にする(完全に透明) */
 }
