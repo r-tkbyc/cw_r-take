@@ -3,14 +3,8 @@ body {
   margin: 0
 }
 
-#startARDiv,
 #unity-container {
   position: absolute;
-  background-color: #f8f7ec;
-  background-image: url('triangles.png');
-  background-repeat: no-repeat;
-  background-size: 200% auto;
-  background-position: top center;
 }
 
 #unity-container.unity-desktop {
@@ -123,7 +117,40 @@ body {
   pointer-events: none;
 }
 
+/* カメラ許可画面の背景に画像を設定 */
+#startARDiv {
+  background-color: #f8f7ec;
+  background-image: url('triangles.png'); /* 独自の背景画像を指定 */
+  background-repeat: no-repeat;
+  background-size: 200% auto;
+  background-position: top center;
+}
 
+/* ローディング中の背景専用レイヤー */
+#loading-background-layer {
+  /* 画面全体に広げる設定 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: 1; /* 他の要素より後ろに配置する */
+
+  /* 初期画面と同じ背景デザインを適用 */
+  background-color: #f8f7ec;
+  background-image: url('triangles.png');
+  background-repeat: no-repeat;
+  background-size: 200% auto;
+  background-position: top center;
+
+  display: none; /* 最初は非表示にしておく */
+}
+
+/* JavaScriptでこのクラスが付与されると非表示になる */
+.hidden {
+  display: none !important;
+}
 
 /* 説明文のスタイル調整 */
 #startARDiv p {

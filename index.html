@@ -33,7 +33,9 @@
     </style>
 </head>
 <body>
-    <div id="versionInfo">IM_v1.0.2</div>
+    <div id="versionInfo">IM_v1.0.4</div>
+
+    <div id="loading-background-layer"></div>
 
     <!--IMAGETARGETS-->
 		<imagetarget id='bear' src='targets/bear.png'></imagetarget>
@@ -105,6 +107,7 @@
             }
             initialize();
             var container = document.querySelector("#unity-container");
+            var loadingBackground = document.querySelector("#loading-background-layer");
             var canvas = document.querySelector("#unity-canvas");
             var loadingBar = document.querySelector("#unity-loading-bar");
             var progressBarFull = document.querySelector("#unity-progress-bar-full");
@@ -113,6 +116,9 @@
                 canvas.style.height = window.innerHeight + "px";
                 
                 document.getElementById("startARDiv").style.display = "none";
+
+                loadingBackground.style.display = "block"; // ローディング開始時に背景を表示する //
+
                 createUnityInstance(document.querySelector("#unity-canvas"), {
                     dataUrl: "Build/toGitHub.data",
                     frameworkUrl: "Build/toGitHub.framework.js",
@@ -132,6 +138,9 @@
                     window.unityInstance = unityInstance;
                     if(window.permissionsGranted)
                         RequestWebcam();
+
+                    loadingBackground.classList.add('hidden'); // ローディング完了時に背景を非表示にする //
+
                     loadingBar.style.display = "none";
                 });
                 loadingBar.style.display = "block";
