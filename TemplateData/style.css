@@ -3,6 +3,7 @@ body {
   margin: 0
 }
 
+/* ----- Step 1 & 2: 初期画面とローディング画面の共通背景設定 ----- */
 #startARDiv,
 #unity-container {
   background-color: #f8f7ec;
@@ -120,15 +121,6 @@ body {
   background: rgba(0,0,0,0.5); color: #fff;
   padding: 3px 8px; border-radius: 5px; font-size: .7em;
   pointer-events: none;
-}
-
-/* カメラ許可画面の背景に画像を設定 */
-#startARDiv {
-  background-color: #f8f7ec;
-  background-image: url('triangles.png'); /* 独自の背景画像を指定 */
-  background-repeat: no-repeat;
-  background-size: 200% auto;
-  background-position: top center;
 }
 
 /* 説明文のスタイル調整 */
