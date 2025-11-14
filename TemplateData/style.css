@@ -4,20 +4,39 @@ body {
 }
 
 /* ===== AR開始画面とローディング画面の共通背景 ===== */
+/* 背景を配置する親要素の準備 */
 #startARDiv,
 #unity-container {
+  position: relative; /* 擬似要素を配置するための基準点 */
+  z-index: 1; /* 念のため重なり順を指定 */
+}
+
+/* 擬似要素(::before)を使って背景レイヤーを作成 */
+#startARDiv::before,
+#unity-container::before {
+  /* ----- ▼ ここで背景デザインを調整します ▼ ----- */
   --decoration-width: 200%;
+  --fade-duration: 0.5s; /* 背景が消えるときのアニメーション時間 (0.5秒) */
+
+  /* ----- ▲ 設定はここまでです ▲ ----- */
+
+  content: ''; /* 擬似要素には必須のプロパティ */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* コンテンツ(ロゴや文字)より後ろに配置 */
+
+  /* 背景のデザインを指定 */
   background-color: #f8f7ec;
   background-image: url('triangles.png');
   background-size: var(--decoration-width) auto;
   background-position: top center;
   background-repeat: no-repeat;
-}
-
-/* ===== JSで背景を非表示にするためのクラス ===== */
-.background-hidden {
-  background-image: none !important;
-  background-color: transparent !important;
+  
+  /* 透明度(opacity)の変化をアニメーションさせる設定 */
+  transition: opacity var(--fade-duration) ease-out;
 }
 
 #unity-container.unity-desktop {
@@ -159,4 +178,9 @@ body {
   max-width: 350px; /* ロゴが極端に大きくなりすぎないように、最大幅を指定 (この値は任意で調整してください) */
   height: auto; /* imgタグの場合、heightをautoに設定すると画像の縦横比を保ったまま、自動で高さが調整されます。 */
   margin-bottom: 1vh; /* ロゴと下のテキストとの間に余白を追加 */
+}
+
+/* ===== JSで背景をフェードアウトさせるためのクラス ===== */
+#unity-container.splash-background-fade-out::before {
+  opacity: 0; /* 透明度を0にする(完全に透明) */
 }
