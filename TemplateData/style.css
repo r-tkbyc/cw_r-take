@@ -96,11 +96,24 @@ body {
   display: none
 }
 
+/* 右上のバージョン表示 */
+#versionInfo {
+  position: fixed; top: 10px; left: 10px; z-index: 1001;
+  background: rgba(0,0,0,0.5); color: #fff;
+  padding: 3px 8px; border-radius: 5px; font-size: .7em;
+  pointer-events: none;
+}
+
 /* カメラ許可画面の背景に画像を設定 */
 #startARDiv {
-  background-image: url('TemplateData/background-image.jpg'); /* 独自の背景画像を指定 */
-  background-size: cover;
-  background-position: center;
+  /* 背景画像を多重に設定します。カンマ区切りで複数指定でき、先に書いた 'triangles.png' が手前(上)に表示されます。 */
+  background-image: url('TemplateData/triangles.png'), url('TemplateData/background-image.jpg');
+  /* 背景画像の表示サイズを個別に設定します。triangles.pngは元のサイズ(auto)、background-image.jpgは画面全体を覆う(cover) */
+  background-size: auto, cover;
+  /* 背景画像の表示位置を個別に設定します。triangles.pngは上部中央(top center)、background-image.jpgは中央(center) */
+  background-position: top center, center;
+  /* 背景画像のリピート設定を個別に設定します。どちらの画像もリピートしない(no-repeat) */
+  background-repeat: no-repeat, no-repeat;
 }
 
 /* 説明文のスタイル調整 */
