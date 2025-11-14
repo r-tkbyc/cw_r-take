@@ -3,8 +3,15 @@ body {
   margin: 0
 }
 
+/* ===== AR開始画面とローディング画面の共通背景 ===== */
+#startARDiv,
 #unity-container {
-  position: absolute
+  --decoration-width: 200%;
+  background-color: #f8f7ec;
+  background-image: url('triangles.png');
+  background-size: var(--decoration-width) auto;
+  background-position: top center;
+  background-repeat: no-repeat;
 }
 
 #unity-container.unity-desktop {
@@ -102,15 +109,6 @@ body {
   background: rgba(0,0,0,0.5); color: #fff;
   padding: 3px 8px; border-radius: 5px; font-size: .7em;
   pointer-events: none;
-}
-
-/* カメラ許可画面の背景に画像を設定 */
-#startARDiv {
-  --decoration-width: 200%;
-  background-image: url('triangles.png'), url('background-image.jpg');
-  background-size: var(--decoration-width) auto, cover;
-  background-position: top center, center;
-  background-repeat: no-repeat, no-repeat;
 }
 
 /* 説明文のスタイル調整 */
