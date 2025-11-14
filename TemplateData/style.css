@@ -36,23 +36,36 @@ body {
 }
 
 #unity-logo {
-  width: 154px;
-  height: 130px;
-  background: url('CreativeWorksLogo_small.png') no-repeat center
+  --loading-logo-width: 20vw;
+  --logo-original-width: 900;  /* ← ロゴ画像の実際の幅(px不要) */
+  --logo-original-height: 814; /* ← ロゴ画像の実際の高さ(px不要) */
+  --logo-max-width: 350px;
+
+  /* --- 以下は設定を反映させるコード (変更不要) --- */
+  width: var(--loading-logo-width);
+  max-width: var(--logo-max-width);
+  height: calc(var(--loading-logo-width) * var(--logo-original-height) / var(--logo-original-width));
+  max-height: calc(var(--logo-max-width) * var(--logo-original-height) / var(--logo-original-width));
+  
+  /* 表示するロゴ画像を指定 */
+  background-image: url('CreativeWorksLogo_small.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0 auto;
 }
 
 #unity-progress-bar-empty {
   width: 141px;
   height: 18px;
-  margin-top: 10px;
-  margin-left: 6.5px;
+  margin-top: 20px;
   background: url('progress-bar-empty-light.png') no-repeat center
 }
 
 #unity-progress-bar-full {
   width: 0%;
   height: 18px;
-  margin-top: 10px;
+  margin-top: 20px;
   background: url('progress-bar-full-light.png') no-repeat center
 }
 
