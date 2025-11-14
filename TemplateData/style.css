@@ -3,6 +3,10 @@ body {
   margin: 0
 }
 
+#unity-container {
+  position: absolute
+}
+
 #unity-container.unity-desktop {
   left: 50%;
   top: 50%;
@@ -21,15 +25,6 @@ body {
 .unity-mobile #unity-canvas {
   width: 100%;
   height: 100%
-}
-
-#startARDiv,
-#unity-loading-bar {
-  background-color: #f8f7ec;
-  background-image: url('triangles.png');
-  background-repeat: no-repeat;
-  background-size: 200% auto;
-  background-position: top center;
 }
 
 #unity-loading-bar {
@@ -120,6 +115,15 @@ body {
   background: rgba(0,0,0,0.5); color: #fff;
   padding: 3px 8px; border-radius: 5px; font-size: .7em;
   pointer-events: none;
+}
+
+/* カメラ許可画面の背景に画像を設定 */
+#startARDiv {
+  background-color: #f8f7ec;
+  background-image: url('triangles.png'); /* 独自の背景画像を指定 */
+  background-repeat: no-repeat;
+  background-size: 200% auto;
+  background-position: top center;
 }
 
 /* 説明文のスタイル調整 */
