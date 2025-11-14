@@ -98,9 +98,11 @@ body {
 
 /* カメラ許可画面の背景に画像を設定 */
 #startARDiv {
-  background-image: url('TemplateData/background-image.jpg'); /* 独自の背景画像を指定 */
-  background-size: cover;
-  background-position: center;
+  background-color: #f8f7ec;
+  background-image: url('triangles.png'); /* 独自の背景画像を指定 */
+  background-repeat: no-repeat;
+  background-size: 200% auto;
+  background-position: top center;
 }
 
 /* 説明文のスタイル調整 */
