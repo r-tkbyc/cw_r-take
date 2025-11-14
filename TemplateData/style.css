@@ -43,18 +43,19 @@ body {
 }
 
 #unity-logo {
+  /* ... (前回の変数設定部分はそのまま) ... */
   --loading-logo-width: 25vw;
   --logo-original-width: 900;
   --logo-original-height: 814;
   --logo-max-width: 350px;
+
+  /* ... (設定を反映させるコードもそのまま) ... */
   width: var(--loading-logo-width);
   max-width: var(--logo-max-width);
   height: calc(var(--loading-logo-width) * var(--logo-original-height) / var(--logo-original-width));
   max-height: calc(var(--logo-max-width) * var(--logo-original-height) / var(--logo-original-width));
   background: url('CreativeWorksLogo_small.png') no-repeat center;
   background-size: contain;
-  margin: 0 auto;
-  padding-bottom: 30px;
 }
 
 #unity-progress-bar-empty {
