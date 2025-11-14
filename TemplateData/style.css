@@ -4,24 +4,17 @@ body {
 }
 
 /* ===== AR開始画面とローディング画面の共通背景 ===== */
-/* 背景を配置する親要素の準備 */
-#startARDiv,
-#unity-container {
-  position: relative; /* 擬似要素を配置するための基準点 */
-  z-index: 1; /* 念のため重なり順を指定 */
-}
-
 /* 擬似要素(::before)を使って背景レイヤーを作成 */
 #startARDiv::before,
 #unity-container::before {
   /* ----- ▼ ここで背景デザインを調整します ▼ ----- */
-  --decoration-width: 200%;
+  --decoration-width: 100%;
   --fade-duration: 0.5s; /* 背景が消えるときのアニメーション時間 (0.5秒) */
 
   /* ----- ▲ 設定はここまでです ▲ ----- */
 
   content: ''; /* 擬似要素には必須のプロパティ */
-  position: absolute;
+  position: absolute; /* 親要素(startARDiv, unity-container)を基準に配置 */
   top: 0;
   left: 0;
   width: 100%;
