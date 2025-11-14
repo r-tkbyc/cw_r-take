@@ -3,8 +3,14 @@ body {
   margin: 0
 }
 
+#startARDiv,
 #unity-container {
-  position: absolute
+  position: absolute;
+  background-color: #f8f7ec;
+  background-image: url('triangles.png'); /* 独自の背景画像を指定 */
+  background-repeat: no-repeat;
+  background-size: 200% auto;
+  background-position: top center;
 }
 
 #unity-container.unity-desktop {
@@ -107,6 +113,14 @@ body {
   background: white;
   padding: 10px;
   display: none
+}
+
+/* 右上のバージョン表示 */
+#versionInfo {
+  position: fixed; top: 10px; left: 10px; z-index: 1001;
+  background: rgba(0,0,0,0.5); color: #fff;
+  padding: 3px 8px; border-radius: 5px; font-size: .7em;
+  pointer-events: none;
 }
 
 /* カメラ許可画面の背景に画像を設定 */
