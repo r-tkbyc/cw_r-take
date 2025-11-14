@@ -154,3 +154,9 @@ body {
   height: auto; /* imgタグの場合、heightをautoに設定すると画像の縦横比を保ったまま、自動で高さが調整されます。 */
   margin-bottom: 1vh; /* ロゴと下のテキストとの間に余白を追加 */
 }
+
+/* ===== JSで背景を非表示にするためのクラス ===== */
+.background-hidden {
+  background-image: none !important;
+  background-color: transparent !important;
+}

@@ -33,7 +33,7 @@
     </style>
 </head>
 <body>
-    <div id="versionInfo">IM_v1.0.8</div>
+    <div id="versionInfo">IM_v1.0.9</div>
     <!--IMAGETARGETS-->
 		<imagetarget id='bear' src='targets/bear.png'></imagetarget>
 		<imagetarget id='bfly' src='targets/bfly.png'></imagetarget>
@@ -131,6 +131,7 @@
                     window.unityInstance = unityInstance;
                     if(window.permissionsGranted)
                         RequestWebcam();
+                        container.classList.add('background-hidden'); //Unityのスプラッシュ画面が出たときhtml側の背景を消す
                     loadingBar.style.display = "none";
                 });
                 loadingBar.style.display = "block";
