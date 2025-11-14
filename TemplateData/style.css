@@ -57,12 +57,13 @@ body {
   max-height: calc(var(--logo-max-width) * var(--logo-original-height) / var(--logo-original-width));
   background: url('CreativeWorksLogo_small.png') no-repeat center;
   background-size: contain;
+  margin: 0 auto;
 }
 
 #unity-progress-bar-empty {
   width: 141px;
   height: 18px;
-  margin-top: 10px;
+  margin-top: 20px;
   background: url('progress-bar-empty-light.png') no-repeat center
 }
 
