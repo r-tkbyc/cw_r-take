@@ -4,13 +4,6 @@ body {
 }
 
 /* ===== AR開始画面とローディング画面の共通背景 ===== */
-/* 背景を配置する親要素の準備 */
-#startARDiv,
-#unity-container {
-  position: relative; /* 擬似要素を配置するための基準点 */
-  z-index: 1; /* 念のため重なり順を指定 */
-}
-
 /* 擬似要素(::before)を使って背景レイヤーを作成 */
 #startARDiv::before,
 #unity-container::before {
