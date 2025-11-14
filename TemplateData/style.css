@@ -45,7 +45,6 @@ body {
 #unity-logo {
   width: 20vw; /* 画面の横幅に対して60%の大きさに設定 */
   max-width: 200px; /* ロゴが極端に大きくなりすぎないように、最大幅を指定 (この値は任意で調整してください) */
-  height: auto;
   background: url('CreativeWorksLogo_small.png') no-repeat center
 }
 
@@ -140,7 +139,7 @@ body {
 
 /* カスタムブランドロゴのスタイル */
 #custom-brand-logo {
-  width: 50vw; /* 画面の横幅に対して60%の大きさに設定 */
+  width: 40vw; /* 画面の横幅に対して60%の大きさに設定 */
   max-width: 350px; /* ロゴが極端に大きくなりすぎないように、最大幅を指定 (この値は任意で調整してください) */
   height: auto; /* imgタグの場合、heightをautoに設定すると画像の縦横比を保ったまま、自動で高さが調整されます。 */
   margin-bottom: 1vh; /* ロゴと下のテキストとの間に余白を追加 */
