@@ -33,7 +33,7 @@
     </style>
 </head>
 <body>
-    <div id="versionInfo">IM_v1.1.6</div>
+    <div id="versionInfo">IM_v1.1.8</div>
     <!--IMAGETARGETS-->
 		<imagetarget id='bear' src='targets/bear.png'></imagetarget>
 		<imagetarget id='bfly' src='targets/bfly.png'></imagetarget>
@@ -131,12 +131,7 @@
                     window.unityInstance = unityInstance;
                     if(window.permissionsGranted)
                         RequestWebcam();
-                    
-                        // 2秒間のスプラッシュ画面が消える少し前(1.5秒後)からフェードアウトを開始する
-                        setTimeout(() => {
-                            container.classList.add('splash-background-fade-out');
-                        }, 3000); // 1000ミリ秒 = 1.0秒
-
+                        container.classList.add('background-hidden'); //Unityのスプラッシュ画面と同時にhtml側の背景を消す
                     loadingBar.style.display = "none";
                 });
                 loadingBar.style.display = "block";
