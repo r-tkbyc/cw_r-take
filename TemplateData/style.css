@@ -45,7 +45,7 @@ body {
 
 #unity-logo {
   /* ... (前回の変数設定部分はそのまま) ... */
-  --loading-logo-width: 25vw;
+  --loading-logo-width: 20vw;
   --logo-original-width: 900;
   --logo-original-height: 814;
   --logo-max-width: 350px;
