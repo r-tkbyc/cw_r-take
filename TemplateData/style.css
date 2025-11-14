@@ -8,13 +8,13 @@ body {
 #startARDiv::before,
 #unity-container::before {
   /* ----- ▼ ここで背景デザインを調整します ▼ ----- */
-  --decoration-width: 100%;
+  --decoration-width: 200%;
   --fade-duration: 0.5s; /* 背景が消えるときのアニメーション時間 (0.5秒) */
 
   /* ----- ▲ 設定はここまでです ▲ ----- */
 
   content: ''; /* 擬似要素には必須のプロパティ */
-  position: absolute; /* 親要素(startARDiv, unity-container)を基準に配置 */
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
