@@ -43,16 +43,24 @@ body {
 }
 
 #unity-logo {
-  width: 20vw; /* 画面の横幅に対して60%の大きさに設定 */
-  max-width: 200px; /* ロゴが極端に大きくなりすぎないように、最大幅を指定 (この値は任意で調整してください) */
-  background: url('CreativeWorksLogo_small.png') no-repeat center
+  --loading-logo-width: 25vw;
+  --logo-original-width: 900;
+  --logo-original-height: 814;
+  --logo-max-width: 350px;
+  width: var(--loading-logo-width);
+  max-width: var(--logo-max-width);
+  height: calc(var(--loading-logo-width) * var(--logo-original-height) / var(--logo-original-width));
+  max-height: calc(var(--logo-max-width) * var(--logo-original-height) / var(--logo-original-width));
+  background: url('CreativeWorksLogo_small.png') no-repeat center;
+  background-size: contain;
+  margin: 0 auto;
+  padding-bottom: 30px;
 }
 
 #unity-progress-bar-empty {
   width: 141px;
   height: 18px;
   margin-top: 10px;
-  margin-left: 6.5px;
   background: url('progress-bar-empty-light.png') no-repeat center
 }
 
