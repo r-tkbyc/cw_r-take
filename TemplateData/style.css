@@ -135,7 +135,7 @@ body {
   width: 100%;
   height: 100%;
 
-  z-index: 1; /* 他の要素より後ろに配置する */
+  z-index: -1; /* 他の要素より後ろに配置する */
 
   /* 初期画面と同じ背景デザインを適用 */
   background-color: #f8f7ec;
