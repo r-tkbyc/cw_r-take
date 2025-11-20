@@ -298,7 +298,7 @@
             function ShowConfirmUrl(url){
                 document.getElementById("confirmUrlDiv").style.display = "flex";
                 window.newUrlString = url;
-                document.getElementById("confirmUrlText").innerText = "外部リンクへ移動しますか？ " + url;
+                document.getElementById("confirmUrlText").innerHTML = "外部リンクへ移動しますか？<br>" + url;
             }
             window.ITRACKER_GLOBALS = {
                 //place global settings here
