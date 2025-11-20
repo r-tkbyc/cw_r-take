@@ -33,7 +33,7 @@
     </style>
 </head>
 <body>
-    <div id="versionInfo">IM_v1.1.1</div>
+    <div id="versionInfo">IM_v1.1.0</div>
     <div id="loading-background-layer"></div>
     <!--IMAGETARGETS-->
 		<imagetarget id='bear' src='targets/bear.png'></imagetarget>
@@ -60,7 +60,7 @@
     </div>
     <div id="confirmUrlDiv" style="display: none;" class="ctaDiv">
         <div style="position:relative; background-color:white; padding:10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.25); width: 80vw; display:flex; flex-direction: column; align-items: center;">
-            <p id="confirmUrlText" style="text-align: center; width:80%; overflow: hidden; text-overflow: ellipsis;">外部リンクへ移動しますか？</p>
+            <p id="confirmUrlText" style="text-align: center; width:80%; overflow: hidden; text-overflow: ellipsis;">Are you sure you want to visit url.com?</p>
             <div>
                 <button onclick="window.open(newUrlString, '_blank').focus(); document.getElementById('confirmUrlDiv').style.display = 'none'">移動する</button>
                 <button onclick="document.getElementById('confirmUrlDiv').style.display = 'none'">戻る</button>
@@ -162,11 +162,11 @@
                     console.error("getUserMedia error - " , err);
                     ShowError("Failed to start the experience. Camera permission was denied");
                     window.requestingForPermissions = false;
-                }           
+                }
             }
             function StopWebcam(){
                 console.log("stopping camera");
-                window.webcamStream.getTracks().forEach(track => track.stop());    
+                window.webcamStream.getTracks().forEach(track => track.stop());
             }
             async function StartWebcam(){
                 console.log("StartWebcam")
@@ -214,8 +214,8 @@
                         else{
                             //back and front
                             camDevices.push(mediaDevice);
-                        }   
-                        
+                        }
+
                         ctr++;
                     }
                 });
@@ -298,13 +298,13 @@
             function ShowConfirmUrl(url){
                 document.getElementById("confirmUrlDiv").style.display = "flex";
                 window.newUrlString = url;
-                document.getElementById("confirmUrlText").innerText = "Are you sure you want to visit " + url;                
+                document.getElementById("confirmUrlText").innerText = "外部リンクへ移動しますか？ " + url;
             }
             window.ITRACKER_GLOBALS = {
                 //place global settings here
                 INTERNAL_SMOOTHFACTOR_POS: .075,
             }
-            
+
     </script>
 </body>
 </html>
