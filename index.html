@@ -33,13 +33,12 @@
     </style>
 </head>
 <body>
-    <div id="versionInfo">IM_v1.2.1</div>
+    <div id="versionInfo">IM_v1.2.2</div>
 
     <div id="ar-guide-overlay" style="display: none;">
         <div class="guide-content">
             <p class="guide-text">名刺の表面にカメラを合わせてください</p>
             <img class="guide-image" src="targets/r-takebayashi.png" alt="名刺ガイド画像">
-            <button class="guide-button" onclick="DismissGuide()">OK、わかった</button>
         </div>
     </div>
 
@@ -114,12 +113,24 @@
             }
             initialize();
 
-            function DismissGuide() {
-                // ガイド用オーバーレイを非表示にする
-                document.getElementById('ar-guide-overlay').style.display = 'none';
+            // Unityがターゲットを認識したら、この関数を呼び出す
+            function OnTargetFound() {
+                console.log("JavaScript: Unityからターゲット認識の報告を受けました！");
+                const guideOverlay = document.getElementById('ar-guide-overlay');
                 
-                // Unityスプラッシュが終わった後なので、HTMLの静的な背景もここで隠す
-                loadingBackground.classList.add('hidden');
+                // 既にフェードアウトが始まっていなければ、処理を実行
+                if (!guideOverlay.classList.contains('fade-out')) {
+                    // フェードアウト用のクラスを追加
+                    guideOverlay.classList.add('fade-out');
+                    
+                    // HTMLの静的な背景もここで隠す
+                    loadingBackground.classList.add('hidden');
+
+                    // アニメーションが終わった後（0.5秒後）、要素を完全に非表示にして操作を可能にする
+                    setTimeout(() => {
+                        guideOverlay.style.display = 'none';
+                    }, 500); // CSSのtransitionの時間と合わせる
+                }
             }
 
             var container = document.querySelector("#unity-container");

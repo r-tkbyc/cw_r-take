@@ -188,26 +188,35 @@ body {
 
 /* ===== ARガイド用オーバーレイのスタイル ===== */
 #ar-guide-overlay {
-  /* 画面全体を覆う設定 */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1000; /* 他のどの要素よりも手前に表示 */
+  z-index: 1000;
+  
+  /* (変更) 背景は透明に。カメラ映像が見えるようにする */
+  background-color: transparent;
 
-  /* 背景を半透明の黒にする */
-  background-color: rgba(0, 0, 0, 0.7);
-
-  /* 中の要素を上下左右中央に配置 */
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /* (追加) ガイドが消えるときのアニメーション設定 */
+  transition: opacity 0.5s ease-out;
+
+  /* (追加) JSから操作するため、最初は触れないようにしておく */
+  pointer-events: none;
+}
+
+/* (追加) フェードアウトさせるためのクラス */
+#ar-guide-overlay.fade-out {
+  opacity: 0;
 }
 
 .guide-content {
   display: flex;
-  flex-direction: column; /* 要素を縦に並べる */
+  flex-direction: column;
   align-items: center;
   text-align: center;
 }
@@ -218,30 +227,15 @@ body {
   font-weight: bold;
   color: white;
   margin-bottom: 20px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* 文字に影をつけて読みやすく */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 .guide-image {
-  /* ガイド画像を半透明にする */
-  opacity: 0.8;
-
-  /* サイズ */
-  width: 80vw; /* 画面幅の80% */
+  /* (変更) 半透明度を少し上げる */
+  opacity: 0.6;
+  
+  width: 80vw;
   max-width: 400px;
   height: auto;
-  border-radius: 10px; /* 画像の角を少し丸くする */
-}
-
-.guide-button {
-  margin-top: 30px;
-  background-color: #bdb052;
-  color: white;
-  padding: 15px 40px;
-  border: none;
-  border-radius: 30px;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  -webkit-tap-highlight-color: transparent;
+  border-radius: 10px;
 }
