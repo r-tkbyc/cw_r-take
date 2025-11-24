@@ -33,15 +33,13 @@
     </style>
 </head>
 <body>
-    <div id="versionInfo">IM_v1.2.2</div>
-
+    <div id="versionInfo">IM_v1.2.3</div>
     <div id="ar-guide-overlay" style="display: none;">
         <div class="guide-content">
             <p class="guide-text">名刺の表面にカメラを合わせてください</p>
             <img class="guide-image" src="targets/r-takebayashi.png" alt="名刺ガイド画像">
         </div>
     </div>
-
     <div id="loading-background-layer"></div>
     <!--IMAGETARGETS-->
 		<imagetarget id='bear' src='targets/bear.png'></imagetarget>
@@ -106,33 +104,11 @@
                     ShowError("Failed to initialize the experience.");
                     return;
                 }
-                
                 await LoadWebcams();
                 document.getElementById("startARButton").style.display = "block";
                 window.permissionsGranted = IsCameraPermissionGranted();
             }
             initialize();
-
-            // Unityがターゲットを認識したら、この関数を呼び出す
-            function OnTargetFound() {
-                console.log("JavaScript: Unityからターゲット認識の報告を受けました！");
-                const guideOverlay = document.getElementById('ar-guide-overlay');
-                
-                // 既にフェードアウトが始まっていなければ、処理を実行
-                if (!guideOverlay.classList.contains('fade-out')) {
-                    // フェードアウト用のクラスを追加
-                    guideOverlay.classList.add('fade-out');
-                    
-                    // HTMLの静的な背景もここで隠す
-                    loadingBackground.classList.add('hidden');
-
-                    // アニメーションが終わった後（0.5秒後）、要素を完全に非表示にして操作を可能にする
-                    setTimeout(() => {
-                        guideOverlay.style.display = 'none';
-                    }, 500); // CSSのtransitionの時間と合わせる
-                }
-            }
-
             var container = document.querySelector("#unity-container");
             var loadingBackground = document.querySelector("#loading-background-layer");
             var canvas = document.querySelector("#unity-canvas");
@@ -141,7 +117,6 @@
             function StartAR() {
                 canvas.style.width = window.innerWidth + "px";
                 canvas.style.height = window.innerHeight + "px";
-                
                 document.getElementById("startARDiv").style.display = "none";
                 loadingBackground.style.display = "block"; // ローディング開始時に背景を表示する //
                 createUnityInstance(document.querySelector("#unity-canvas"), {
@@ -311,6 +286,22 @@
                 } catch (error) {
                     console.log("Error checking camera permission:", error);
                     return false;
+                }
+            }
+            // Unityがターゲットを認識したら、この関数が呼び出される
+            function OnTargetFound() {
+                console.log("JavaScript: Unityからターゲット認識の報告を受けました！");
+                const guideOverlay = document.getElementById('ar-guide-overlay');
+                // 既にフェードアウトが始まっていなければ、処理を実行
+                if (guideOverlay.style.display !== 'none' && !guideOverlay.classList.contains('fade-out')) {
+                    // フェードアウト用のクラスを追加
+                    guideOverlay.classList.add('fade-out');
+                    // HTMLの静的な背景もここで隠す
+                    loadingBackground.classList.add('hidden');
+                    // アニメーションが終わった後（0.5秒後）、要素を完全に非表示にして操作を可能にする
+                    setTimeout(() => {
+                        guideOverlay.style.display = 'none';
+                    }, 500); // CSSのtransitionの時間と合わせる
                 }
             }
             function ShowError(error){
