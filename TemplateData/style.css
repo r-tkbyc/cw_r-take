@@ -118,54 +118,34 @@ body {
   pointer-events: none;
 }
 
-/* カメラ許可画面の背景に画像を設定 */
+/* =============================================================== */
+/* ===== WebARカスタムスタイル (Opacity制御・URP対応版) ===== */
+/* =============================================================== */
+
+/* ----- Step 1: 初期画面のスタイル ----- */
 #startARDiv {
-  background-color: #f8f7ec;
-  background-image: url('triangles.png'); /* 独自の背景画像を指定 */
-  background-repeat: no-repeat;
-  background-size: 200% auto;
-  background-position: top center;
-}
-
-/* ローディング中の背景専用レイヤー */
-#loading-background-layer {
-  /* 画面全体に広げる設定 */
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
-  z-index: -1; /* 他の要素より後ろに配置する */
-
-  /* 初期画面と同じ背景デザインを適用 */
   background-color: #f8f7ec;
   background-image: url('triangles.png');
   background-repeat: no-repeat;
   background-size: 200% auto;
   background-position: top center;
-
-  display: none; /* 最初は非表示にしておく */
 }
-
-/* JavaScriptでこのクラスが付与されると非表示になる */
-.hidden {
-  display: none !important;
+#custom-brand-logo {
+  width: 35vw;
+  max-width: 350px;
+  height: auto;
+  margin-bottom: 3vh;
 }
-
-/* 説明文のスタイル調整 */
 #startARDiv p {
   color: #333;
-  background-color: #f8f7ec; /* 半透明の背景を追加して読みやすくする */
+  background-color: #f8f7ec;
   padding: 20px;
   border-radius: 10px;
   font-size: 16px;
 }
-
-/* ボタンのスタイルをカスタマイズ */
 #startARButton {
-  background-color: #bdb052; /* ボタンの色 */
-  color: white; /* 文字色 */
+  background-color: #bdb052;
+  color: white;
   padding: 15px 30px;
   border: none;
   border-radius: 30px;
@@ -175,53 +155,51 @@ body {
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-#startARButton:hover {
-  background-color: #7e742f; /* マウスオーバー時の色 */
-}
 
-/* カスタムブランドロゴのスタイル */
-#custom-brand-logo {
-  width: 35vw; /* 画面の横幅に対して60%の大きさに設定 */
-  max-width: 350px; /* ロゴが極端に大きくなりすぎないように、最大幅を指定 (この値は任意で調整してください) */
-  height: auto; /* imgタグの場合、heightをautoに設定すると画像の縦横比を保ったまま、自動で高さが調整されます。 */
-  margin-bottom: 3vh; /* ロゴと下のテキストとの間に余白を追加 */
-}
-
-/* ===== ARガイド用オーバーレイのスタイル ===== */
+/* ----- Step 2: 背景幕とガイドの基本スタイル ----- */
+#loading-background-layer,
 #ar-guide-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1000;
   
-  /* (変更) 背景は透明に。カメラ映像が見えるようにする */
-  background-color: transparent;
-
-  display: flex;
+  /* Opacity制御のための初期設定 */
+  opacity: 0; /* 最初は両方とも透明 */
+  pointer-events: none; /* 透明な間は操作を貫通させる */
+  transition: opacity 0.5s ease; /* 0.5秒かけてフワッと変化する */
+}
+#loading-background-layer {
+  background-color: #f8f7ec;
+  background-image: url('triangles.png');
+  background-repeat: no-repeat;
+  background-size: 200% auto;
+  background-position: top center;
+  z-index: 1; /* ローディングバーよりは後ろ */
+}
+#ar-guide-overlay {
+  display: flex; /* 中身を中央揃えにするためflexは維持 */
   justify-content: center;
   align-items: center;
-
-  /* (追加) ガイドが消えるときのアニメーション設定 */
-  transition: opacity 0.5s ease-out;
-
-  /* (追加) JSから操作するため、最初は触れないようにしておく */
-  pointer-events: none;
+  z-index: 1000; /* ガイドは一番手前 */
 }
 
-/* (追加) フェードアウトさせるためのクラス */
-#ar-guide-overlay.fade-out {
-  opacity: 0;
+
+/* ----- Step 3: JSから操作するための「見える化」クラス ----- */
+.visible {
+  opacity: 1 !important;
+  pointer-events: auto !important;
 }
 
+
+/* ----- Step 4: ガイド内の要素のスタイル ----- */
 .guide-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
-
 .guide-text {
   font-family: sans-serif;
   font-size: 18px;
@@ -230,28 +208,10 @@ body {
   margin-bottom: 20px;
   text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
-
 .guide-image {
-  /* (変更) 半透明度を少し上げる */
   opacity: 0.6;
-  
   width: 80vw;
   max-width: 400px;
   height: auto;
   border-radius: 10px;
-}
-
-#loading-background-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #f8f7ec; /* まずは色だけ。画像は後で追加します */
-  z-index: -1;
-  display: none; /* 最初は非表示 */
-}
-
-.hidden {
-  display: none !important;
 }
