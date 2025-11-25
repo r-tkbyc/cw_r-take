@@ -33,13 +33,14 @@
     </style>
 </head>
 <body>
-    <div id="versionInfo">IM_v1.3.1</div>
-    <div id="ar-guide-overlay" class="hidden-on-load">
+    <div id="versionInfo">IM_v1.2.5</div>
+    <div id="ar-guide-overlay" style="display: none;">
         <div class="guide-content">
             <p class="guide-text">名刺の表面にカメラを合わせてください</p>
             <img class="guide-image" src="targets/r-takebayashi.png" alt="名刺ガイド画像">
         </div>
     </div>
+    <div id="loading-background-layer"></div>
     <!--IMAGETARGETS-->
 		<imagetarget id='bear' src='targets/bear.png'></imagetarget>
 		<imagetarget id='bfly' src='targets/bfly.png'></imagetarget>
@@ -117,6 +118,7 @@
                 canvas.style.width = window.innerWidth + "px";
                 canvas.style.height = window.innerHeight + "px";
                 document.getElementById("startARDiv").style.display = "none";
+                loadingBackground.style.display = "block"; // ローディング開始時に背景を表示する //
                 createUnityInstance(document.querySelector("#unity-canvas"), {
                     dataUrl: "Build/toGitHub.data",
                     frameworkUrl: "Build/toGitHub.framework.js",
@@ -136,6 +138,8 @@
                     window.unityInstance = unityInstance;
                     if(window.permissionsGranted)
                         RequestWebcam();
+                    loadingBackground.classList.add('hidden');
+                    loadingBar.style.display = "none";
                 });
                 loadingBar.style.display = "block";
             }
