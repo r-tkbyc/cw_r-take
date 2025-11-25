@@ -33,15 +33,13 @@
     </style>
 </head>
 <body>
-    <div id="versionInfo">IM_v1.3.0</div>
-    <!-- ===== ARガイド機能は一時的に無効化 =====
+    <div id="versionInfo">IM_v1.2.5</div>
     <div id="ar-guide-overlay" style="display: none;">
         <div class="guide-content">
             <p class="guide-text">名刺の表面にカメラを合わせてください</p>
             <img class="guide-image" src="targets/r-takebayashi.png" alt="名刺ガイド画像">
         </div>
     </div>
-    -->
     <div id="loading-background-layer"></div>
     <!--IMAGETARGETS-->
 		<imagetarget id='bear' src='targets/bear.png'></imagetarget>
@@ -290,7 +288,6 @@
                     return false;
                 }
             }
-            /* ===== ARガイド機能は一時的に無効化 =====
             // Unityがターゲットを認識したら、この関数が呼び出される
             function OnTargetFound() {
                 console.log("JavaScript: Unityからターゲット認識の報告を受けました！");
@@ -307,7 +304,6 @@
                     }, 500); // CSSのtransitionの時間と合わせる
                 }
             }
-            */
             function ShowError(error){
                 document.getElementById("errorDiv").style.display = "flex";
                 document.getElementById("errorText").innerHTML = error;

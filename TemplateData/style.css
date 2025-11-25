@@ -186,7 +186,7 @@ body {
   margin-bottom: 3vh; /* ロゴと下のテキストとの間に余白を追加 */
 }
 
-/* ===== ARガイド用オーバーレイのスタイル (一時的に無効化) ===== 
+/* ===== ARガイド用オーバーレイのスタイル ===== */
 #ar-guide-overlay {
   position: fixed;
   top: 0;
@@ -195,17 +195,21 @@ body {
   height: 100%;
   z-index: 1000;
   
+  /* (変更) 背景は透明に。カメラ映像が見えるようにする */
   background-color: transparent;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
+  /* (追加) ガイドが消えるときのアニメーション設定 */
   transition: opacity 0.5s ease-out;
 
+  /* (追加) JSから操作するため、最初は触れないようにしておく */
   pointer-events: none;
 }
 
+/* (追加) フェードアウトさせるためのクラス */
 #ar-guide-overlay.fade-out {
   opacity: 0;
 }
@@ -227,10 +231,11 @@ body {
 }
 
 .guide-image {
+  /* (変更) 半透明度を少し上げる */
   opacity: 0.6;
+  
   width: 80vw;
   max-width: 400px;
   height: auto;
   border-radius: 10px;
 }
-*/
