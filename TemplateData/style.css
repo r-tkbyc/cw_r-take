@@ -119,10 +119,10 @@ body {
 }
 
 /* =============================================================== */
-/* ===== WebARカスタムスタイル (Opacity制御・URP対応版) ===== */
+/* ===== WebARカスタムスタイル (Unity主導制御版) ===== */
 /* =============================================================== */
 
-/* ----- Step 1: 初期画面のスタイル ----- */
+/* ----- 初期画面のスタイル ----- */
 #startARDiv {
   background-color: #f8f7ec;
   background-image: url('triangles.png');
@@ -130,88 +130,46 @@ body {
   background-size: 200% auto;
   background-position: top center;
 }
-#custom-brand-logo {
-  width: 35vw;
-  max-width: 350px;
-  height: auto;
-  margin-bottom: 3vh;
+/* ... (その他の#startARDiv内の要素のスタイルは、必要であればここに記述) ... */
+
+
+/* ----- ローディング画面の中央揃え ----- */
+#unity-loading-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-#startARDiv p {
-  color: #333;
-  background-color: #f8f7ec;
-  padding: 20px;
-  border-radius: 10px;
-  font-size: 16px;
+#unity-logo {
+  /* ... (ロゴのスタイルは以前と同じものをここに記述) ... */
 }
-#startARButton {
-  background-color: #bdb052;
-  color: white;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 30px;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+#unity-progress-bar-empty {
+  margin-left: 0;
 }
 
 
-/* ----- Step 2: 背景幕とガイドの基本スタイル ----- */
-#loading-background-layer,
+/* ----- ガイド用オーバーレイのスタイル ----- */
 #ar-guide-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  
-  /* Opacity制御のための初期設定 */
-  opacity: 0; /* 最初は両方とも透明 */
-  pointer-events: none; /* 透明な間は操作を貫通させる */
-  transition: opacity 0.5s ease; /* 0.5秒かけてフワッと変化する */
-}
-#loading-background-layer {
-  background-color: #f8f7ec;
-  background-image: url('triangles.png');
-  background-repeat: no-repeat;
-  background-size: 200% auto;
-  background-position: top center;
-  z-index: 1; /* ローディングバーよりは後ろ */
-}
-#ar-guide-overlay {
-  display: flex; /* 中身を中央揃えにするためflexは維持 */
+  z-index: 1000;
+  display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* ガイドは一番手前 */
+
+  opacity: 1; /* 透明度は1で固定 */
+  transition: opacity 0.5s ease; /* フェードアウト用 */
 }
+/* ... (ガイド内の .guide-content などのスタイルはここに記述) ... */
 
 
-/* ----- Step 3: JSから操作するための「見える化」クラス ----- */
-.visible {
-  opacity: 1 !important;
-  pointer-events: auto !important;
+/* ----- 表示制御用のクラス ----- */
+.hidden-on-load {
+  display: none !important; /* (重要) ページ読み込み時は完全に非表示 */
 }
-
-
-/* ----- Step 4: ガイド内の要素のスタイル ----- */
-.guide-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-.guide-text {
-  font-family: sans-serif;
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 20px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-.guide-image {
-  opacity: 0.6;
-  width: 80vw;
-  max-width: 400px;
-  height: auto;
-  border-radius: 10px;
+.fade-out {
+  opacity: 0 !important;
+  pointer-events: none !important; /* 消えたら操作も不能に */
 }
