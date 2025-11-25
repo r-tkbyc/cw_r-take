@@ -33,6 +33,15 @@
     </style>
 </head>
 <body>
+    <div id="versionInfo">IM_v1.2.7</div>
+    <div id="loading-background-layer"></div>
+    <div id="ar-guide-overlay" style="display: none;">
+        <div class="guide-content">
+            <p class="guide-text">名刺の表面にカメラを合わせてください</p>
+            <img class="guide-image" src="targets/r-takebayashi.png" alt="名刺ガイド画像">
+        </div>
+    </div>
+    <div id="loading-background-layer"></div>
     <!--IMAGETARGETS-->
 		<imagetarget id='bear' src='targets/bear.png'></imagetarget>
 		<imagetarget id='bfly' src='targets/bfly.png'></imagetarget>
@@ -45,9 +54,10 @@
     <video id="webcam-video" muted autoplay playsinline style="width:1px;position:absolute"></video>
     <canvas id="video-canvas" style="width:100%; height:100%; object-fit:cover; position:absolute"></canvas>
     <div id="startARDiv" class="ctaDiv">
+        <img id="custom-brand-logo" src="TemplateData/CreativeWorksLogo.png" alt="My Logo">
         <select id="chooseCamSel" style="display: none;" onchange="SelectCam()"></select>
-        <p style="text-align: center; width:60vw;">This augmented reality experience requires access to your device's camera</p>
-        <button id="startARButton" onclick="StartAR()" style="display:none">ALLOW ACCESS</button>
+        <p style="text-align: center; width:60vw;">AR名刺をご体験いただくには、カメラのアクセスを許可してください。</p>
+        <button id="startARButton" onclick="StartAR()" style="display:none">Let's START!</button>
     </div>
     <div id="screenshotDiv" style="display: none;" class="ctaDiv">
         <div style="position:relative; background-color:white; padding:10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.25);">
@@ -59,8 +69,8 @@
         <div style="position:relative; background-color:white; padding:10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.25); width: 80vw; display:flex; flex-direction: column; align-items: center;">
             <p id="confirmUrlText" style="text-align: center; width:80%; overflow: hidden; text-overflow: ellipsis;">Are you sure you want to visit url.com?</p>
             <div>
-                <button onclick="window.open(newUrlString, '_blank').focus(); document.getElementById('confirmUrlDiv').style.display = 'none'">VISIT SITE</button>
-                <button onclick="document.getElementById('confirmUrlDiv').style.display = 'none'">GO BACK</button>
+                <button onclick="window.open(newUrlString, '_blank').focus(); document.getElementById('confirmUrlDiv').style.display = 'none'">移動する</button>
+                <button onclick="document.getElementById('confirmUrlDiv').style.display = 'none'">戻る</button>
             </div>
         </div>
     </div>
@@ -95,29 +105,29 @@
                     ShowError("Failed to initialize the experience.");
                     return;
                 }
-                
                 await LoadWebcams();
                 document.getElementById("startARButton").style.display = "block";
                 window.permissionsGranted = IsCameraPermissionGranted();
             }
             initialize();
             var container = document.querySelector("#unity-container");
+            var loadingBackground = document.querySelector("#loading-background-layer");
             var canvas = document.querySelector("#unity-canvas");
             var loadingBar = document.querySelector("#unity-loading-bar");
             var progressBarFull = document.querySelector("#unity-progress-bar-full");
             function StartAR() {
                 canvas.style.width = window.innerWidth + "px";
                 canvas.style.height = window.innerHeight + "px";
-                
                 document.getElementById("startARDiv").style.display = "none";
+                loadingBackground.style.display = "block"; // ローディング開始時に背景を表示する //
                 createUnityInstance(document.querySelector("#unity-canvas"), {
-                    dataUrl: "Build/toGitHub.data.unityweb",
-                    frameworkUrl: "Build/toGitHub.framework.js.unityweb",
-                    codeUrl: "Build/toGitHub.wasm.unityweb",
+                    dataUrl: "Build/toGitHub.data",
+                    frameworkUrl: "Build/toGitHub.framework.js",
+                    codeUrl: "Build/toGitHub.wasm",
                     streamingAssetsUrl: "StreamingAssets",
                     companyName: "DefaultCompany",
                     productName: "cw_r-take",
-                    productVersion: "0.1.0",
+                    productVersion: "0.1",
                     //webglContextAttributes: { "preserveDrawingBuffer": true },
                     // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
                     // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
@@ -129,6 +139,7 @@
                     window.unityInstance = unityInstance;
                     if(window.permissionsGranted)
                         RequestWebcam();
+                    loadingBackground.classList.add('hidden');
                     loadingBar.style.display = "none";
                 });
                 loadingBar.style.display = "block";
@@ -156,11 +167,11 @@
                     console.error("getUserMedia error - " , err);
                     ShowError("Failed to start the experience. Camera permission was denied");
                     window.requestingForPermissions = false;
-                }           
+                }
             }
             function StopWebcam(){
                 console.log("stopping camera");
-                window.webcamStream.getTracks().forEach(track => track.stop());    
+                window.webcamStream.getTracks().forEach(track => track.stop());
             }
             async function StartWebcam(){
                 console.log("StartWebcam")
@@ -208,8 +219,7 @@
                         else{
                             //back and front
                             camDevices.push(mediaDevice);
-                        }   
-                        
+                        }
                         ctr++;
                     }
                 });
@@ -279,6 +289,22 @@
                     return false;
                 }
             }
+            // Unityがターゲットを認識したら、この関数が呼び出される
+            function OnTargetFound() {
+                console.log("JavaScript: Unityからターゲット認識の報告を受けました！");
+                const guideOverlay = document.getElementById('ar-guide-overlay');
+                // 既にフェードアウトが始まっていなければ、処理を実行
+                if (guideOverlay.style.display !== 'none' && !guideOverlay.classList.contains('fade-out')) {
+                    // フェードアウト用のクラスを追加
+                    guideOverlay.classList.add('fade-out');
+                    // HTMLの静的な背景もここで隠す
+                    loadingBackground.classList.add('hidden');
+                    // アニメーションが終わった後（0.5秒後）、要素を完全に非表示にして操作を可能にする
+                    setTimeout(() => {
+                        guideOverlay.style.display = 'none';
+                    }, 500); // CSSのtransitionの時間と合わせる
+                }
+            }
             function ShowError(error){
                 document.getElementById("errorDiv").style.display = "flex";
                 document.getElementById("errorText").innerHTML = error;
@@ -292,13 +318,12 @@
             function ShowConfirmUrl(url){
                 document.getElementById("confirmUrlDiv").style.display = "flex";
                 window.newUrlString = url;
-                document.getElementById("confirmUrlText").innerText = "Are you sure you want to visit " + url;                
+                document.getElementById("confirmUrlText").innerHTML = "外部リンクへ移動しますか？<br>" + url;
             }
             window.ITRACKER_GLOBALS = {
                 //place global settings here
                 INTERNAL_SMOOTHFACTOR_POS: .075,
             }
-            
     </script>
 </body>
 </html>
