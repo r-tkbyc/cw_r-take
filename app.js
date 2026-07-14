@@ -4,7 +4,6 @@ const INTERPOLATOR_NAMES = Array.from({ length: 8 }, (_, index) => `DesignMove${
 
 const elements = {
   canvas: document.querySelector("#model-viewer"),
-  viewerCard: document.querySelector(".viewer-card"),
   stage: document.querySelector("#viewer-stage"),
   loadingPanel: document.querySelector("#loading-panel"),
   loadingMessage: document.querySelector("#loading-message"),
@@ -14,7 +13,6 @@ const elements = {
   playPause: document.querySelector("#play-pause"),
   restart: document.querySelector("#restart"),
   resetView: document.querySelector("#reset-view"),
-  fullscreen: document.querySelector("#fullscreen"),
 };
 
 let browser;
@@ -23,6 +21,8 @@ let interpolators = [];
 let isScrubbing = false;
 let resumeAfterScrub = false;
 let initialized = false;
+let resetViewpoints = [];
+let resetViewpointIndex = 0;
 
 function now() {
   return Date.now() / 1000;
@@ -102,21 +102,40 @@ function startFromFraction(fraction = 0) {
 }
 
 function resetViewpoint() {
-  if (!browser) return;
+  if (!browser || resetViewpoints.length === 0) return;
 
   try {
-    // changeViewpoint rebinds the authored viewpoint and clears navigation
-    // offsets accumulated by drag, pan and zoom operations.
-    browser.changeViewpoint("Initial View");
+    // Alternate between two identical viewpoints. Binding a different node
+    // guarantees that accumulated drag, pan and zoom offsets are discarded.
+    const viewpoint = resetViewpoints[resetViewpointIndex];
+    resetViewpointIndex = (resetViewpointIndex + 1) % resetViewpoints.length;
+    viewpoint.retainUserOffsets = false;
+    viewpoint.jump = true;
+    viewpoint.set_bind = true;
   } catch (error) {
     console.warn("初期視点を取得できませんでした。", error);
   }
+}
+
+function createResetViewpoints() {
+  resetViewpoints = Array.from({ length: 2 }, () => {
+    const viewpoint = browser.currentScene.createNode("Viewpoint");
+    viewpoint.position = new X3D.SFVec3f(61.6748, 40.9351, -32.2954);
+    viewpoint.orientation = new X3D.SFRotation(0.008, -0.79, -0.613, -3.12);
+    viewpoint.centerOfRotation = new X3D.SFVec3f(61.352, -3.6005, -21.79);
+    viewpoint.fieldOfView = 0.5867;
+    viewpoint.retainUserOffsets = false;
+    viewpoint.jump = true;
+    browser.currentScene.rootNodes.push(viewpoint);
+    return viewpoint;
+  });
 }
 
 function initializeViewer() {
   try {
     timer = browser.currentScene.getNamedNode(TIMER_NAME);
     interpolators = INTERPOLATOR_NAMES.map((name) => browser.currentScene.getNamedNode(name));
+    createResetViewpoints();
 
     timer.addFieldCallback("web-viewer-progress", "fraction_changed", (value) => {
       setProgress(Number(value));
@@ -182,22 +201,6 @@ elements.timeline.addEventListener("change", finishScrubbing);
 elements.timeline.addEventListener("pointerup", finishScrubbing);
 elements.timeline.addEventListener("pointercancel", finishScrubbing);
 elements.timeline.addEventListener("keyup", finishScrubbing);
-
-elements.fullscreen.addEventListener("click", async () => {
-  try {
-    if (document.fullscreenElement) await document.exitFullscreen();
-    else await elements.viewerCard?.requestFullscreen?.();
-  } catch (error) {
-    console.warn("全画面表示を開始できませんでした。", error);
-  }
-});
-
-document.addEventListener("fullscreenchange", () => {
-  elements.fullscreen.setAttribute(
-    "aria-label",
-    document.fullscreenElement ? "全画面表示を終了" : "全画面表示",
-  );
-});
 
 elements.stage.addEventListener("pointerdown", () => elements.viewerHint.classList.add("is-hidden"), {
   once: true,
