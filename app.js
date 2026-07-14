@@ -131,11 +131,25 @@ function createResetViewpoints() {
   });
 }
 
+function disableInertiaRotation() {
+  const viewer = browser.getViewer?.();
+
+  if (!viewer || typeof viewer.addSpinning !== "function") {
+    console.warn("慣性回転の停止設定を適用できませんでした。");
+    return;
+  }
+
+  // X_ITE normally calls addSpinning after a quick drag release. Replacing
+  // only that hook keeps direct dragging, panning and zooming unchanged.
+  viewer.addSpinning = () => viewer.removeSpinning?.();
+}
+
 function initializeViewer() {
   try {
     timer = browser.currentScene.getNamedNode(TIMER_NAME);
     interpolators = INTERPOLATOR_NAMES.map((name) => browser.currentScene.getNamedNode(name));
     createResetViewpoints();
+    disableInertiaRotation();
 
     timer.addFieldCallback("web-viewer-progress", "fraction_changed", (value) => {
       setProgress(Number(value));
