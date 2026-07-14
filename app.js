@@ -105,8 +105,9 @@ function resetViewpoint() {
   if (!browser) return;
 
   try {
-    const viewpoint = browser.currentScene.getNamedNode("VIEWPOINT");
-    viewpoint.set_bind = true;
+    // changeViewpoint rebinds the authored viewpoint and clears navigation
+    // offsets accumulated by drag, pan and zoom operations.
+    browser.changeViewpoint("Initial View");
   } catch (error) {
     console.warn("初期視点を取得できませんでした。", error);
   }
@@ -208,18 +209,32 @@ window.addEventListener("error", (event) => {
   }
 });
 
-try {
-  await customElements.whenDefined("x3d-canvas");
-  browser = elements.canvas.browser;
-  browser.addBrowserCallback(
-    "web-viewer-init",
-    X3D.X3DConstants.INITIALIZED_EVENT,
-    initializeViewer,
-  );
-} catch (error) {
-  console.error(error);
-  showLoadError("3Dビューアを初期化できませんでした。ページを再読み込みしてください。");
+async function bootViewer() {
+  try {
+    await customElements.whenDefined("x3d-canvas");
+    browser = elements.canvas.browser;
+
+    // Register callbacks before assigning the model URL. This avoids missing
+    // the initialized event when a small model loads from the browser cache.
+    browser.addBrowserCallback(
+      "web-viewer-init",
+      X3D.X3DConstants.INITIALIZED_EVENT,
+      initializeViewer,
+    );
+    browser.addBrowserCallback(
+      "web-viewer-load-error",
+      X3D.X3DConstants.CONNECTION_ERROR,
+      () => showLoadError("WRLファイルを読み込めませんでした。ファイル名と公開場所を確認してください。"),
+    );
+
+    elements.canvas.setAttribute("src", elements.canvas.dataset.modelUrl);
+  } catch (error) {
+    console.error(error);
+    showLoadError("3Dビューアを初期化できませんでした。ページを再読み込みしてください。");
+  }
 }
+
+bootViewer();
 
 window.setTimeout(() => {
   if (!initialized) {
