@@ -6,6 +6,8 @@ DEF VIEWPOINT Viewpoint {
 position 61.6748 40.9351 -32.2954
 orientation 0.008 -0.790 -0.613 -3.120
 fieldOfView 0.5867
+centerOfRotation 61.3520 -3.6005 -21.7900
+description "Initial View"
 }
 NavigationInfo {
 type "EXAMINE"
