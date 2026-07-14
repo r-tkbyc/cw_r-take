@@ -3,115 +3,106 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#15231f" />
-    <meta name="application-version" content="1.0.1" />
+    <meta name="theme-color" content="#fff7dc" />
+    <meta name="application-version" content="1.1.0" />
     <meta
       name="description"
-      content="プテラノドン組立キットのアニメーションを自由な角度から確認できる3Dビューア"
+      content="大洋印刷の子供向け体験教室で楽しむ、立体恐竜パズルの3D組立アニメーション"
     />
-    <title>プテラノドン 3D組立ビューア</title>
-    <link rel="stylesheet" href="./style.css" />
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/x_ite@15.1.10/dist/x_ite.min.js"
-    ></script>
-    <script defer src="./app.js"></script>
+    <title>立体恐竜パズル 3D組立ガイド</title>
+    <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
-    <main class="page-shell">
-      <header class="site-header">
-        <div>
-          <p class="eyebrow">S&amp;D スチレン恐竜組立キット</p>
-          <h1>プテラノドン</h1>
+    <div class="page-decoration decoration-one" aria-hidden="true"></div>
+    <div class="page-decoration decoration-two" aria-hidden="true"></div>
+
+    <main class="home-shell">
+      <header class="home-header">
+        <div class="organizer-mark">
+          <span class="mark-dot" aria-hidden="true"></span>
+          <span>大洋印刷 こども体験教室</span>
         </div>
-        <div class="header-meta">
-          <span class="version-badge">ver 1.0.1</span>
-          <span class="format-badge">3D / VRML</span>
-        </div>
+        <span class="home-version">ver 1.1.0</span>
       </header>
 
-      <section class="viewer-card" aria-label="プテラノドン3Dビューア">
-        <div class="viewer-stage" id="viewer-stage">
-          <x3d-canvas
-            id="model-viewer"
-            class="browser"
-            data-model-url="./S＆D‗スチレン恐竜組立キット_プテラノドン_001_05.WRL"
-            contentScale="auto"
-            update="auto"
-            splashScreen="false"
-            notifications="false"
-            contextMenu="true"
-            aria-label="ドラッグしてプテラノドンを回転できます"
-          >
-            <p class="fallback-message">
-              このブラウザでは3D表示を利用できません。最新版のChrome、Edge、Firefox、Safariでお試しください。
-            </p>
-          </x3d-canvas>
+      <section class="hero">
+        <p class="hero-kicker">つくる・うごかす・かんさつする</p>
+        <h1>立体恐竜パズルを<br /><span>3Dで見てみよう！</span></h1>
+        <p class="hero-copy">
+          恐竜をえらぶと、パーツが組み上がるようすを自由な角度から見ることができます。
+        </p>
+        <div class="dino-tracks" aria-hidden="true">● ●　● ●　● ●</div>
+      </section>
 
-          <div class="loading-panel" id="loading-panel" role="status" aria-live="polite">
-            <span class="loading-spinner" aria-hidden="true"></span>
-            <span id="loading-message">3Dモデルを読み込んでいます…</span>
-          </div>
-
-          <div class="viewer-hint" id="viewer-hint">
-            <span class="desktop-hint">ドラッグで回転 ・ ホイールでズーム</span>
-            <span class="mobile-hint">1本指で回転 ・ ピンチでズーム</span>
+      <section class="model-section" aria-labelledby="model-heading">
+        <div class="section-heading">
+          <span class="section-number">01</span>
+          <div>
+            <p>CHOOSE YOUR DINOSAUR</p>
+            <h2 id="model-heading">見たい恐竜をえらんでね</h2>
           </div>
         </div>
 
-        <div class="control-panel">
-          <div class="timeline-row">
-            <label class="sr-only" for="timeline">アニメーションの再生位置</label>
-            <input
-              id="timeline"
-              class="timeline"
-              type="range"
-              min="0"
-              max="1000"
-              step="1"
-              value="0"
-              disabled
-            />
-            <output id="time-display" for="timeline">0:00 / 0:24</output>
-          </div>
+        <div class="model-grid">
+          <a class="model-card spinosaurus" href="./viewer.html?model=spinosaurus">
+            <div class="card-topline">
+              <span class="card-number">01</span>
+              <span class="duration">約34秒</span>
+            </div>
+            <div class="dino-icon" aria-hidden="true">🦖</div>
+            <div class="card-content">
+              <p>SPINOSAURUS</p>
+              <h3>スピノサウルス</h3>
+              <span class="open-label">組み立てを見る <b aria-hidden="true">→</b></span>
+            </div>
+          </a>
 
-          <div class="button-row">
-            <button id="play-pause" class="button button-primary" type="button" disabled>
-              <span class="button-icon" aria-hidden="true">Ⅱ</span>
-              <span class="button-label">一時停止</span>
-            </button>
-            <button id="restart" class="button" type="button" disabled>
-              <span class="button-icon" aria-hidden="true">↺</span>
-              <span>先頭へ</span>
-            </button>
-            <button id="reset-view" class="button" type="button" disabled>
-              <span class="button-icon" aria-hidden="true">◎</span>
-              <span>視点を戻す</span>
-            </button>
-          </div>
+          <a class="model-card pteranodon" href="./viewer.html?model=pteranodon">
+            <div class="card-topline">
+              <span class="card-number">02</span>
+              <span class="duration">約24秒</span>
+            </div>
+            <div class="dino-icon" aria-hidden="true">🪽</div>
+            <div class="card-content">
+              <p>PTERANODON</p>
+              <h3>プテラノドン</h3>
+              <span class="open-label">組み立てを見る <b aria-hidden="true">→</b></span>
+            </div>
+          </a>
+
+          <a class="model-card velociraptor" href="./viewer.html?model=velociraptor">
+            <div class="card-topline">
+              <span class="card-number">03</span>
+              <span class="duration">約26秒</span>
+            </div>
+            <div class="dino-icon" aria-hidden="true">🦕</div>
+            <div class="card-content">
+              <p>VELOCIRAPTOR</p>
+              <h3>ヴェロキラプトル</h3>
+              <span class="open-label">組み立てを見る <b aria-hidden="true">→</b></span>
+            </div>
+          </a>
         </div>
       </section>
 
-      <section class="instructions" aria-labelledby="instructions-title">
-        <h2 id="instructions-title">操作方法</h2>
-        <div class="instruction-grid">
+      <section class="how-to" aria-labelledby="how-heading">
+        <div class="section-heading compact">
+          <span class="section-number">02</span>
           <div>
-            <strong>回転</strong>
-            <span>画面をドラッグ</span>
-          </div>
-          <div>
-            <strong>拡大・縮小</strong>
-            <span>ホイール／ピンチ</span>
-          </div>
-          <div>
-            <strong>移動</strong>
-            <span>右ドラッグ／2本指</span>
+            <p>HOW TO ENJOY</p>
+            <h2 id="how-heading">3Dモデルの楽しみかた</h2>
           </div>
         </div>
+        <ol class="steps">
+          <li><span>1</span><strong>再生する</strong><small>組み立ての順番を見よう</small></li>
+          <li><span>2</span><strong>回してみる</strong><small>指でドラッグして観察しよう</small></li>
+          <li><span>3</span><strong>作ってみる</strong><small>本物のパズルに挑戦しよう</small></li>
+        </ol>
       </section>
 
-      <footer>
-        <p>WebGL対応ブラウザでご覧ください。</p>
+      <footer class="home-footer">
+        <p>主催：大洋印刷</p>
+        <p>立体恐竜パズル 3D組立ガイド</p>
       </footer>
     </main>
   </body>

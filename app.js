@@ -1,6 +1,52 @@
-const DURATION_SECONDS = 24;
+const MODEL_CONFIGS = {
+  spinosaurus: {
+    name: "スピノサウルス",
+    file: "./S＆D‗スチレン恐竜組立キット_スピノサウルス_001_05.WRL",
+    duration: 34,
+    partCount: 17,
+    viewpoint: {
+      position: [-23.7441, -37.7704, -12.2813],
+      orientation: [-0.968, -0.198, 0.151, -1.334],
+      center: [-28.522, 5.482, -19.3635],
+      fieldOfView: 0.7107,
+    },
+    accent: "#d76449",
+  },
+  pteranodon: {
+    name: "プテラノドン",
+    file: "./S＆D‗スチレン恐竜組立キット_プテラノドン_001_05.WRL",
+    duration: 24,
+    partCount: 8,
+    viewpoint: {
+      position: [61.6748, 40.9351, -32.2954],
+      orientation: [0.008, -0.79, -0.613, -3.12],
+      center: [61.352, -3.6005, -21.79],
+      fieldOfView: 0.5867,
+    },
+    accent: "#237252",
+  },
+  velociraptor: {
+    name: "ヴェロキラプトル",
+    file: "./S＆D‗スチレン恐竜組立キット_ヴェロキラプトル_001_05.WRL",
+    duration: 26,
+    partCount: 7,
+    viewpoint: {
+      position: [150.8253, -35.6393, -10.2521],
+      orientation: [-1, 0.021, -0.018, -1.382],
+      center: [147.104, -0.011, -20.0835],
+      fieldOfView: 0.6077,
+    },
+    accent: "#c58a13",
+  },
+};
+
 const TIMER_NAME = "FoldRotateTime";
-const INTERPOLATOR_NAMES = Array.from({ length: 8 }, (_, index) => `DesignMove${index + 1}n1`);
+const modelKey = new URLSearchParams(window.location.search).get("model");
+const config = MODEL_CONFIGS[modelKey] ?? MODEL_CONFIGS.pteranodon;
+const interpolatorNames = Array.from(
+  { length: config.partCount },
+  (_, index) => `DesignMove${index + 1}n1`,
+);
 
 const elements = {
   canvas: document.querySelector("#model-viewer"),
@@ -24,12 +70,18 @@ let initialized = false;
 let resetViewpoints = [];
 let resetViewpointIndex = 0;
 
+document.documentElement.style.setProperty("--model-accent", config.accent);
+document.title = `${config.name}｜立体恐竜パズル 3D組立ガイド`;
+for (const element of document.querySelectorAll("[data-model-name]")) {
+  element.textContent = config.name;
+}
+
 function now() {
   return Date.now() / 1000;
 }
 
 function formatTime(seconds) {
-  const safeSeconds = Math.max(0, Math.min(DURATION_SECONDS, seconds));
+  const safeSeconds = Math.max(0, Math.min(config.duration, seconds));
   const minutes = Math.floor(safeSeconds / 60);
   const remainingSeconds = Math.floor(safeSeconds % 60);
   return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
@@ -40,8 +92,9 @@ function setProgress(fraction) {
   if (!isScrubbing) {
     elements.timeline.value = String(Math.round(clamped * 1000));
   }
-  elements.timeDisplay.value = `${formatTime(clamped * DURATION_SECONDS)} / 0:24`;
-  elements.timeDisplay.textContent = elements.timeDisplay.value;
+  const display = `${formatTime(clamped * config.duration)} / ${formatTime(config.duration)}`;
+  elements.timeDisplay.value = display;
+  elements.timeDisplay.textContent = display;
 }
 
 function setPlayingState(isPlaying) {
@@ -49,7 +102,10 @@ function setPlayingState(isPlaying) {
   const label = elements.playPause.querySelector(".button-label");
   icon.textContent = isPlaying ? "Ⅱ" : "▶";
   label.textContent = isPlaying ? "一時停止" : "再生";
-  elements.playPause.setAttribute("aria-label", isPlaying ? "アニメーションを一時停止" : "アニメーションを再生");
+  elements.playPause.setAttribute(
+    "aria-label",
+    isPlaying ? "アニメーションを一時停止" : "アニメーションを再生",
+  );
 }
 
 function setControlsEnabled(enabled) {
@@ -96,7 +152,7 @@ function startFromFraction(fraction = 0) {
   timer.enabled = false;
   setInterpolatorFraction(clamped);
   timer.stopTime = 0;
-  timer.startTime = now() - clamped * DURATION_SECONDS;
+  timer.startTime = now() - clamped * config.duration;
   timer.enabled = true;
   setPlayingState(true);
 }
@@ -105,8 +161,6 @@ function resetViewpoint() {
   if (!browser || resetViewpoints.length === 0) return;
 
   try {
-    // Alternate between two identical viewpoints. Binding a different node
-    // guarantees that accumulated drag, pan and zoom offsets are discarded.
     const viewpoint = resetViewpoints[resetViewpointIndex];
     resetViewpointIndex = (resetViewpointIndex + 1) % resetViewpoints.length;
     viewpoint.retainUserOffsets = false;
@@ -120,10 +174,10 @@ function resetViewpoint() {
 function createResetViewpoints() {
   resetViewpoints = Array.from({ length: 2 }, () => {
     const viewpoint = browser.currentScene.createNode("Viewpoint");
-    viewpoint.position = new X3D.SFVec3f(61.6748, 40.9351, -32.2954);
-    viewpoint.orientation = new X3D.SFRotation(0.008, -0.79, -0.613, -3.12);
-    viewpoint.centerOfRotation = new X3D.SFVec3f(61.352, -3.6005, -21.79);
-    viewpoint.fieldOfView = 0.5867;
+    viewpoint.position = new X3D.SFVec3f(...config.viewpoint.position);
+    viewpoint.orientation = new X3D.SFRotation(...config.viewpoint.orientation);
+    viewpoint.centerOfRotation = new X3D.SFVec3f(...config.viewpoint.center);
+    viewpoint.fieldOfView = config.viewpoint.fieldOfView;
     viewpoint.retainUserOffsets = false;
     viewpoint.jump = true;
     browser.currentScene.rootNodes.push(viewpoint);
@@ -133,21 +187,14 @@ function createResetViewpoints() {
 
 function disableInertiaRotation() {
   const viewer = browser.getViewer?.();
-
-  if (!viewer || typeof viewer.addSpinning !== "function") {
-    console.warn("慣性回転の停止設定を適用できませんでした。");
-    return;
-  }
-
-  // X_ITE normally calls addSpinning after a quick drag release. Replacing
-  // only that hook keeps direct dragging, panning and zooming unchanged.
+  if (!viewer || typeof viewer.addSpinning !== "function") return;
   viewer.addSpinning = () => viewer.removeSpinning?.();
 }
 
 function initializeViewer() {
   try {
     timer = browser.currentScene.getNamedNode(TIMER_NAME);
-    interpolators = INTERPOLATOR_NAMES.map((name) => browser.currentScene.getNamedNode(name));
+    interpolators = interpolatorNames.map((name) => browser.currentScene.getNamedNode(name));
     createResetViewpoints();
     disableInertiaRotation();
 
@@ -164,6 +211,7 @@ function initializeViewer() {
     initialized = true;
     setControlsEnabled(true);
     setPlayingState(true);
+    setProgress(0);
     elements.loadingPanel.classList.add("is-hidden");
     window.setTimeout(() => elements.viewerHint.classList.add("is-hidden"), 4200);
   } catch (error) {
@@ -193,8 +241,7 @@ elements.timeline.addEventListener("input", (event) => {
     resumeAfterScrub = Boolean(timer?.isActive && !timer?.isPaused);
     pauseAnimation();
   }
-  const fraction = Number(event.currentTarget.value) / 1000;
-  setInterpolatorFraction(fraction);
+  setInterpolatorFraction(Number(event.currentTarget.value) / 1000);
 });
 
 function finishScrubbing() {
@@ -230,9 +277,6 @@ async function bootViewer() {
   try {
     await customElements.whenDefined("x3d-canvas");
     browser = elements.canvas.browser;
-
-    // Register callbacks before assigning the model URL. This avoids missing
-    // the initialized event when a small model loads from the browser cache.
     browser.addBrowserCallback(
       "web-viewer-init",
       X3D.X3DConstants.INITIALIZED_EVENT,
@@ -243,8 +287,7 @@ async function bootViewer() {
       X3D.X3DConstants.CONNECTION_ERROR,
       () => showLoadError("WRLファイルを読み込めませんでした。ファイル名と公開場所を確認してください。"),
     );
-
-    elements.canvas.setAttribute("src", elements.canvas.dataset.modelUrl);
+    elements.canvas.setAttribute("src", config.file);
   } catch (error) {
     console.error(error);
     showLoadError("3Dビューアを初期化できませんでした。ページを再読み込みしてください。");

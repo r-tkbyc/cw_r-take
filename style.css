@@ -1,4 +1,5 @@
 :root {
+  --model-accent: #237252;
   color-scheme: light;
   font-family:
     Inter, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
@@ -38,6 +39,36 @@ button {
   width: min(1120px, 100%);
   margin: 0 auto;
   padding: 28px clamp(14px, 3vw, 32px) max(28px, env(safe-area-inset-bottom));
+}
+
+.viewer-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 18px;
+  color: #67766f;
+  font-size: 0.74rem;
+  font-weight: 750;
+}
+
+.viewer-nav a {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border: 1px solid #ccd7d1;
+  border-radius: 999px;
+  color: #263a32;
+  background: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+}
+
+.viewer-nav a:hover,
+.viewer-nav a:focus-visible {
+  border-color: var(--model-accent);
+  outline: none;
 }
 
 .site-header {
@@ -152,7 +183,7 @@ x3d-canvas:focus-visible {
   width: 22px;
   height: 22px;
   border: 3px solid #bfd0c8;
-  border-top-color: #257356;
+  border-top-color: var(--model-accent);
   border-radius: 50%;
   animation: spin 800ms linear infinite;
 }
@@ -212,7 +243,7 @@ x3d-canvas:focus-visible {
   width: 100%;
   height: 22px;
   margin: 0;
-  accent-color: #237252;
+  accent-color: var(--model-accent);
   cursor: pointer;
 }
 
@@ -274,14 +305,15 @@ x3d-canvas:focus-visible {
 
 .button-primary {
   min-width: 118px;
-  border-color: #1f674c;
+  border-color: var(--model-accent);
   color: #ffffff;
-  background: #1f674c;
+  background: var(--model-accent);
 }
 
 .button-primary:hover:not(:disabled) {
-  border-color: #18523d;
-  background: #185b43;
+  border-color: var(--model-accent);
+  background: var(--model-accent);
+  filter: brightness(0.88);
 }
 
 .button-icon {
@@ -296,6 +328,43 @@ x3d-canvas:focus-visible {
   border: 1px solid rgba(30, 52, 44, 0.1);
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.62);
+}
+
+.next-models {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border: 1px solid rgba(30, 52, 44, 0.1);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.next-models p {
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.next-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.next-links a {
+  padding: 8px 11px;
+  border: 1px solid #ccd6d1;
+  border-radius: 999px;
+  color: #40534b;
+  background: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.next-links a:hover,
+.next-links a:focus-visible {
+  border-color: var(--model-accent);
+  outline: none;
 }
 
 .instructions h2 {
@@ -359,6 +428,10 @@ footer p {
   .site-header {
     align-items: center;
     margin-bottom: 13px;
+  }
+
+  .viewer-nav > span {
+    display: none;
   }
 
   .viewer-card {
