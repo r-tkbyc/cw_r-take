@@ -137,10 +137,10 @@ function pauseAnimation() {
 function resumeAnimation() {
   if (!timer) return;
 
-  if (timer.isPaused) {
-    timer.resumeTime = now();
-  } else if (!timer.isActive) {
+  if (!timer.isActive) {
     startFromFraction(Number(elements.timeline.value) / 1000);
+  } else if (timer.isPaused) {
+    timer.resumeTime = now();
   }
   setPlayingState(true);
 }
@@ -195,6 +195,13 @@ function initializeViewer() {
   try {
     timer = browser.currentScene.getNamedNode(TIMER_NAME);
     interpolators = interpolatorNames.map((name) => browser.currentScene.getNamedNode(name));
+
+    // ArtiosCAD exports the timer with an old startTime and loop enabled,
+    // which makes playback appear partway through on load. Stop it before
+    // revealing the model and explicitly restore every part to frame zero.
+    timer.enabled = false;
+    setInterpolatorFraction(0);
+
     createResetViewpoints();
     disableInertiaRotation();
 
@@ -210,7 +217,7 @@ function initializeViewer() {
 
     initialized = true;
     setControlsEnabled(true);
-    setPlayingState(true);
+    setPlayingState(false);
     setProgress(0);
     elements.loadingPanel.classList.add("is-hidden");
     window.setTimeout(() => elements.viewerHint.classList.add("is-hidden"), 4200);
